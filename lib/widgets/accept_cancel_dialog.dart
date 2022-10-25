@@ -1,4 +1,4 @@
-// Copyright 2020 anaurelian. All rights reserved.
+// Copyright 2020-2022 TechAurelian. All rights reserved.
 // Use of this source code is governed by an MIT-style license that can be
 // found in the LICENSE file.
 
@@ -13,27 +13,26 @@ void showAcceptCancelDialog(
   VoidCallback onAccept,
 ) {
   showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          content: Text(message),
-          actions: <Widget>[
-            FlatButton(
-              child: Text(cancelButton.toUpperCase()),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            FlatButton(
-              child: Text(acceptButton.toUpperCase()),
-              onPressed: () {
-                if (onAccept != null) {
-                  onAccept();
-                }
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      });
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        content: Text(message),
+        actions: <Widget>[
+          TextButton(
+            child: Text(cancelButton.toUpperCase()),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          TextButton(
+            child: Text(acceptButton.toUpperCase()),
+            onPressed: () {
+              onAccept();
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
 }

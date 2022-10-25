@@ -1,18 +1,20 @@
-import 'package:counters_everywhere/utils/utils.dart';
+// Copyright 2020-2022 TechAurelian. All rights reserved.
+// Use of this source code is governed by an MIT-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
+
+import '../utils/utils.dart';
 
 /// A widget that displays a centered integer counter value, filled with a specified color.
 class CounterDisplay extends StatelessWidget {
   /// Creates a counter display widget.
   const CounterDisplay({
-    Key key,
-    @required this.value,
-    @required this.color,
+    super.key,
+    required this.value,
+    required this.color,
     this.isPortrait = true,
-  })  : assert(value != null),
-        assert(color != null),
-        assert(isPortrait != null),
-        super(key: key);
+  });
 
   /// The color with which to fill the counter container.
   final Color color;
@@ -25,7 +27,7 @@ class CounterDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle counterStyle =
+    final TextStyle? counterStyle =
         isPortrait ? Theme.of(context).textTheme.headline1 : Theme.of(context).textTheme.headline2;
 
     return Container(
@@ -43,7 +45,7 @@ class CounterDisplay extends StatelessWidget {
         child: Text(
           toDecimalString(context, value),
           overflow: TextOverflow.ellipsis,
-          style: counterStyle.copyWith(
+          style: counterStyle?.copyWith(
             color: color.contrastOf(),
           ),
         ),

@@ -1,10 +1,10 @@
-// Copyright 2020 anaurelian. All rights reserved.
+// Copyright 2020-2022 TechAurelian. All rights reserved.
 // Use of this source code is governed by an MIT-style license that can be
 // found in the LICENSE file.
 
 import 'dart:math';
-
 import 'package:flutter/material.dart';
+
 import 'package:url_launcher/url_launcher.dart';
 
 /// Formats [number] as a decimal, inserting locale-appropriate thousands separators as necessary.
@@ -13,23 +13,12 @@ String toDecimalString(BuildContext context, int number) {
   return localizations.formatDecimal(number);
 }
 
-/// Shows a [SnackBar] with the specified [text] at the bottom of the specified scaffold.
-void showSnackBar(ScaffoldState scaffoldState, String text) {
-  scaffoldState.showSnackBar(
-    SnackBar(
-      content: Text(text),
-    ),
-  );
-}
-
 /// Launches the specified [URL] in the mobile platform.
 ///
 /// Shows an error [SnackBar] if there is no support for launching the URL.
-Future<void> launchUrl(ScaffoldState scaffoldState, String url) async {
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    showSnackBar(scaffoldState, 'Failed to open $url');
+Future<void> launchUrlExternal(String url) async {
+  if (!await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication)) {
+    debugPrint('Failed to open $url');
   }
 }
 
@@ -48,7 +37,7 @@ extension ColorX on Color {
     for (int i = 1; i < 10; i++) {
       strengths.add(0.1 * i);
     }
-    strengths.forEach((strength) {
+    for (var strength in strengths) {
       final double ds = 0.5 - strength;
       swatch[(strength * 1000).round()] = Color.fromRGBO(
         r + ((ds < 0 ? r : (255 - r)) * ds).round(),
@@ -56,18 +45,18 @@ extension ColorX on Color {
         b + ((ds < 0 ? b : (255 - b)) * ds).round(),
         1,
       );
-    });
+    }
     return MaterialColor(value, swatch);
   }
 
   /// Returns a random material shade.
-  static Color randomMaterialColor() {
-    List<Color> _materialShades(MaterialColor mc) =>
+  static Color? randomMaterialColor() {
+    List<Color?> materialShades(MaterialColor mc) =>
         [50, 100, 200, 300, 400, 500, 600, 700, 800, 900].map((index) => mc[index]).toList();
 
-    final Random _random = Random();
-    List<Color> shades =
-        Colors.primaries.map((color) => _materialShades(color)).expand((color) => color).toList();
-    return shades[_random.nextInt(shades.length)];
+    final Random random = Random();
+    List<Color?> shades =
+        Colors.primaries.map((color) => materialShades(color)).expand((color) => color).toList();
+    return shades[random.nextInt(shades.length)];
   }
 }

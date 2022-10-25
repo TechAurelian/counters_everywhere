@@ -1,24 +1,29 @@
-import 'package:counters_everywhere/common/app_strings.dart';
-import 'package:counters_everywhere/common/settings_provider.dart';
-import 'package:counters_everywhere/model/counter.dart';
-import 'package:counters_everywhere/utils/utils.dart';
-import 'package:counters_everywhere/widgets/accept_cancel_dialog.dart';
-import 'package:counters_everywhere/widgets/counter_display.dart';
+// Copyright 2020-2022 TechAurelian. All rights reserved.
+// Use of this source code is governed by an MIT-style license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
-import 'package:share/share.dart';
+
+import 'package:share_plus/share_plus.dart';
+
+import '../common/app_strings.dart';
+import '../common/settings_provider.dart';
+import '../model/counter.dart';
+import '../utils/utils.dart';
+import '../widgets/accept_cancel_dialog.dart';
+import '../widgets/counter_display.dart';
 
 /// Overflow menu items enumeration.
 enum MenuAction { reset, share, rate, help }
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  /// The AppBar's action needs this key to find its own Scaffold.
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
   /// The counter.
   final Counter _counter = Counter();
 
@@ -57,11 +62,11 @@ class _HomeScreenState extends State<HomeScreen> {
         break;
       case MenuAction.rate:
         // Launch the Google Play Store page to allow the user to rate the app
-        launchUrl(_scaffoldKey.currentState, AppStrings.rateAppURL);
+        launchUrlExternal(AppStrings.rateAppURL);
         break;
       case MenuAction.help:
         // Launch the app online help url
-        launchUrl(_scaffoldKey.currentState, AppStrings.helpURL);
+        launchUrlExternal(AppStrings.helpURL);
         break;
     }
   }
@@ -71,7 +76,6 @@ class _HomeScreenState extends State<HomeScreen> {
     final bool isPortrait = MediaQuery.of(context).size.height >= 500;
 
     return Scaffold(
-      key: _scaffoldKey,
       appBar: _buildAppBar(),
 //      drawer: _buildDrawer(),
       body: CounterDisplay(
@@ -86,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
   /// Builds the app bar with the popup menu items.
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
-      title: Text(AppStrings.appName),
+      title: const Text(AppStrings.appName),
       actions: <Widget>[
         PopupMenuButton<MenuAction>(
           onSelected: popupMenuSelection,
@@ -102,8 +106,8 @@ class _HomeScreenState extends State<HomeScreen> {
         .map(
           (item) => PopupMenuItem<MenuAction>(
             value: item,
-            child: Text(AppStrings.menuActions[item]),
             enabled: !(item == MenuAction.reset && _counter.value == 0),
+            child: Text(AppStrings.menuActions[item]!),
           ),
         )
         .toList();

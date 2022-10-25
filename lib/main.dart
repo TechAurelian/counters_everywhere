@@ -1,17 +1,19 @@
-// Copyright 2020 anaurelian. All rights reserved.
+// Copyright 2020-2022 TechAurelian. All rights reserved.
 // Use of this source code is governed by an MIT-style license that can be
 // found in the LICENSE file.
 
-import 'package:counters_everywhere/screens/home.dart';
-import 'package:counters_everywhere/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 import 'common/app_strings.dart';
+import 'screens/home.dart';
+import 'utils/utils.dart';
 
-void main() => runApp(CounterApp());
+void main() => runApp(const CounterApp());
 
 /// The app widget.
 class CounterApp extends StatelessWidget {
+  const CounterApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -26,7 +28,7 @@ class CounterApp extends StatelessWidget {
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: HomeScreen(),
+      home: const HomeScreen(),
     );
   }
 }

@@ -1,4 +1,8 @@
-import 'package:counters_everywhere/screens/home.dart';
+// Copyright 2020-2022 TechAurelian. All rights reserved.
+// Use of this source code is governed by an MIT-style license that can be
+// found in the LICENSE file.
+
+import '../screens/home.dart';
 
 /// Application wide UI and URL string constants.
 class AppStrings {
